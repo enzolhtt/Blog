@@ -13,7 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -53,7 +53,7 @@ class ArticleController extends AbstractController
         ])
         ->setAction($this->generateUrl('resultat'))
         ->add('elt', TextType::class, ['label' => false, 
-        'attr' => ['Palceholder' => 'Rechercher',
+        'attr' => ['Placeholder' => 'Rechercher',
         'class' => 'form-control me-2'
         ]])
         ->add('submit', SubmitType::class, [
