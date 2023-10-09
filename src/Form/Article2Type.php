@@ -15,7 +15,7 @@ class Article2Type extends AbstractType
     {
         $builder
             ->add('titre')
-            ->add('contenu', TextareaType::class)
+            ->add('contenu', TextareaType::class, ['required' => false] )
             ->add('date')
             ->add('userSecurity')
             ->add('categorie')
