@@ -18,12 +18,15 @@ class Categorie
     #[ORM\Column(length: 255)]
     private ?string $libelle = null;
 
-    #[ORM\OneToMany(mappedBy: 'categorie', targetEntity: Article::class)]
-    private Collection $lesCategories;
+    #[ORM\ManyToOne(inversedBy: 'categories')]
+    private ?Article $LesCategories = null;
+
+    #[ORM\ManyToOne(inversedBy: 'LesCategories')]
+    private ?Article $article = null;
 
     public function __construct()
     {
-        $this->lesCategories = new ArrayCollection();
+    
     }
 
     public function getId(): ?int
@@ -43,32 +46,31 @@ class Categorie
         return $this;
     }
 
-    /**
-     * @return Collection<int, Article>
-     */
-    public function getLesCategories(): Collection
+    public function __toString()
     {
-        return $this->lesCategories;
+        return $this->libelle;
     }
 
-    public function addLesCategory(Article $lesCategory): static
+    public function getLesCategories(): ?Article
     {
-        if (!$this->lesCategories->contains($lesCategory)) {
-            $this->lesCategories->add($lesCategory);
-            $lesCategory->setCategorie($this);
-        }
+        return $this->LesCategories;
+    }
+
+    public function setLesCategories(?Article $LesCategories): static
+    {
+        $this->LesCategories = $LesCategories;
 
         return $this;
     }
 
-    public function removeLesCategory(Article $lesCategory): static
+    public function getArticle(): ?Article
     {
-        if ($this->lesCategories->removeElement($lesCategory)) {
-            // set the owning side to null (unless already changed)
-            if ($lesCategory->getCategorie() === $this) {
-                $lesCategory->setCategorie(null);
-            }
-        }
+        return $this->article;
+    }
+
+    public function setArticle(?Article $article): static
+    {
+        $this->article = $article;
 
         return $this;
     }

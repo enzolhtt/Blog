@@ -2,11 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Categorie;
 use App\Entity\Article;
-use App\Form\Article1Type;
+use App\Form\Article2Type;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,11 +33,52 @@ class ArticleController extends AbstractController
         ]);
     }
 
+    #[Route('/categorie/{id}', name: 'app_article_categorie', methods: ['GET'])]
+    public function CategorieList(ArticleRepository $ArticleRepository ,Categorie $categorie): Response
+    {
+        return $this->render('article/list.html.twig', [
+            'articles' => $ArticleRepository->findBy(['categorie' => $categorie],[]),
+        ]);
+    }
+
+    #[Route('/article/select', name: 'recherche')]
+    public function RechercherArticle(ArticleRepository $ArticleRepository): Response
+    {
+
+        $form = $this->createFormBuilder(null, [
+            'attr' => ['class' => 'd-flex']
+        ])
+        ->setAction($this->generateUrl('resultat'))
+        ->add('elt', TextType::class, ['label' => false, 
+        'attr' => ['Palceholder' => 'Rechercher',
+        'class' => 'form-control me-2'
+        ]])
+        ->add('submit', SubmitType::class, [
+            'attr' => ['class' => 'btn btn-outline-success']
+        ])
+        ->setMethod('GET')
+        ->getForm();
+        return $this->render('article/recherche.html.twig', [
+            'form' =>$form->createview()
+        ]);
+    }
+
+    #[Route('/result', name: 'resultat', methods: ['GET'])]
+    public function result(ArticleRepository $ArticleRepository, Request $request): Response
+    {
+        $form = ($request->get('form'));
+        $elt = $form['elt'];
+        $articles = $ArticleRepository->findArticleByCategorie($elt);
+        return $this->render('article/list.html.twig', [
+            'articles' => $articles,
+        ]);
+    }
+
     #[Route('/new', name: 'app_article_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $article = new Article();
-        $form = $this->createForm(Article1Type::class, $article);
+        $form = $this->createForm(Article2Type::class, $article);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

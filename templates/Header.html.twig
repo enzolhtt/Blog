@@ -17,17 +17,43 @@
 							<li class="nav-item @@home">
 								<a class="nav-link" href="{{path('home')}}">Home</a>
 							</li>
-							<li class="nav-item @@home">
-								<a class="nav-link" href="{{path('home')}}">Categorie</a>
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" id="dropdown05" data-toggle="dropdown" aria-haspopup="true"
+									aria-expanded="false" >Categorie <span class="ion-ios-arrow-down"></span></a>
+								<ul class="dropdown-menu" aria-labelledby="dropdown05">
+									{{ render(controller('App\\Controller\\CategorieController::CategorieMenu'))}}
+								</ul>
 							</li>
+
+							{% if is_granted('IS_AUTHENTICATED_FULLY')%}
+								{% if is_granted("ROLE_ADMIN") %}
+									<li class="nav-item @@home">
+										<a class="nav-link" href="{{path('admin')}}">Admin Dashboard</a>
+									</li>
+								{% endif %}
+								<li class="nav-item @@home">
+									<a class="nav-link" href="{{path('app_logout')}}">Se Deconnecter</a>
+								</li>
+							{% else %}
+							<li class="nav-item @@home">
+								<a class="nav-link" href="{{path('app_register')}}">S'inscrire</a>
+							</li>
+							<li class="nav-item @@home">
+								<a class="nav-link" href="{{path('app_login')}}">Se connecter</a>
+							</li>
+							{% endif %}
+
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" id="dropdown05" data-toggle="dropdown" aria-haspopup="true"
 									aria-expanded="false" >Article <span class="ion-ios-arrow-down"></span></a>
 									<ul class="dropdown-menu" aria-labelledby="dropdown05">
 										<li><a class="dropdown-item @@about" href="{{path('article_list')}}">Lister les articles</a></li>
+										{% if is_granted('IS_AUTHENTICATED_FULLY')%}
 										<li><a class="dropdown-item @@about" href="{{path('app_article_new')}}">Ajouter un article</a></li>
+										{% endif %}
 								</ul>
 							</li>
+							{{ render(controller('App\\Controller\\ArticleController::RechercherArticle'))}}
 					</div>
 				</nav>
 			</div>

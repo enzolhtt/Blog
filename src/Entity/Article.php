@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ArticleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -23,13 +25,25 @@ class Article
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\ManyToOne(inversedBy: 'lesArticles')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Utilisateur $auteur = null;
 
     #[ORM\ManyToOne(inversedBy: 'lesCategories')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Categorie $categorie = null;
+
+    #[ORM\OneToMany(mappedBy: 'LesCategories', targetEntity: Categorie::class)]
+    private Collection $categories;
+
+    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Categorie::class)]
+    private Collection $LesCategories;
+
+    #[ORM\ManyToOne(inversedBy: 'LesArticles')]
+    private ?UserSecurity $userSecurity = null;
+
+    public function __construct()
+    {
+        $this->categories = new ArrayCollection();
+        $this->LesCategories = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -72,17 +86,17 @@ class Article
         return $this;
     }
 
-    public function getAuteur(): ?Utilisateur
+    /*public function getUserSecurity(): ?UserSecurity
     {
-        return $this->auteur;
+        return $this->userSecurity;
     }
 
-    public function setAuteur(?Utilisateur $auteur): static
+    public function setUserSecurity(?UserSecurity $userSecurity): static
     {
-        $this->auteur = $auteur;
+        $this->userSecurity = $userSecurity;
 
         return $this;
-    }
+    }*/
 
     public function __toString()
     {
@@ -100,4 +114,17 @@ class Article
 
         return $this;
     }
+
+    public function getUserSecurity(): ?UserSecurity
+    {
+        return $this->userSecurity;
+    }
+
+    public function setUserSecurity(?UserSecurity $userSecurity): static
+    {
+        $this->userSecurity = $userSecurity;
+
+        return $this;
+    }
+
 }
