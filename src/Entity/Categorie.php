@@ -24,6 +24,9 @@ class Categorie
     #[ORM\ManyToOne(inversedBy: 'LesCategories')]
     private ?Article $article = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+
     public function __construct()
     {
     
@@ -71,6 +74,18 @@ class Categorie
     public function setArticle(?Article $article): static
     {
         $this->article = $article;
+
+        return $this;
+    }
+
+    public function getslug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
 
         return $this;
     }

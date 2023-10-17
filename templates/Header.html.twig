@@ -4,8 +4,9 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<nav class="navbar navbar-expand-lg p-0">
+				<img src="{{asset('images/favicon.png')}}" alt="Logo">
 					<a class="navbar-brand" href="{{path('home')}}">
-						<img src="{{asset('images/logo.png')}}" alt="Logo">
+						<ul>Salut {% if is_granted('IS_AUTHENTICATED_FULLY')%}{{app.user.pseudo}}{% endif %} </ul>
 					</a>
 
 					<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,25 +25,6 @@
 									{{ render(controller('App\\Controller\\CategorieController::CategorieMenu'))}}
 								</ul>
 							</li>
-
-							{% if is_granted('IS_AUTHENTICATED_FULLY')%}
-								{% if is_granted("ROLE_ADMIN") %}
-									<li class="nav-item @@home">
-										<a class="nav-link" href="{{path('admin')}}">Admin Dashboard</a>
-									</li>
-								{% endif %}
-								<li class="nav-item @@home">
-									<a class="nav-link" href="{{path('app_logout')}}">Se Deconnecter</a>
-								</li>
-							{% else %}
-							<li class="nav-item @@home">
-								<a class="nav-link" href="{{path('app_register')}}">S'inscrire</a>
-							</li>
-							<li class="nav-item @@home">
-								<a class="nav-link" href="{{path('app_login')}}">Se connecter</a>
-							</li>
-							{% endif %}
-
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" id="dropdown05" data-toggle="dropdown" aria-haspopup="true"
 									aria-expanded="false" >Article <span class="ion-ios-arrow-down"></span></a>
@@ -53,6 +35,20 @@
 										{% endif %}
 								</ul>
 							</li>
+
+							{% if is_granted('IS_AUTHENTICATED_FULLY')%}
+								<li class="nav-item @@home">
+									<a class="nav-link" href="{{path('app_logout')}}">Se Deconnecter</a>
+								</li>
+							{% else %}
+								<li class="nav-item @@home">
+									<a class="nav-link" href="{{path('app_register')}}">S'inscrire</a>
+								</li>
+								<li class="nav-item @@home">
+									<a class="nav-link" href="{{path('app_login')}}">Se connecter</a>
+								</li>
+							{% endif %}
+
 							{{ render(controller('App\\Controller\\ArticleController::RechercherArticle'))}}
 					</div>
 				</nav>

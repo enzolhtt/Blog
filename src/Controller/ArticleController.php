@@ -36,16 +36,16 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/categorie/{id}', name: 'app_article_categorie', methods: ['GET'])]
+    #[Route('/categorie/{slug}', name: 'app_article_categorie', methods: ['GET'])]
     public function CategorieList(ArticleRepository $ArticleRepository ,Categorie $categorie): Response
     {
         return $this->render('article/list.html.twig', [
-            'articles' => $ArticleRepository->findBy(['categorie' => $categorie],[]),
+            'articles' => $ArticleRepository->findBy(['categorie' => $categorie], []),
         ]);
     }
 
     #[Route('/article/select', name: 'recherche')]
-    public function RechercherArticle(ArticleRepository $ArticleRepository): Response
+    public function RechercherArticle(): Response
     {
 
         $form = $this->createFormBuilder(null, [
@@ -98,7 +98,7 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_article_show', methods: ['GET'])]
+    #[Route('/{titre}', name: 'app_article_show', methods: ['GET'])]
     public function show(Article $article): Response
     {
         return $this->render('article/show.html.twig', [
