@@ -114,6 +114,7 @@ Pour **toutes** les commandes Symfony il faudra se placer dans le dossier du blo
 Il faut vérifier que dans **/var/www/Blog/migrations** il ne reste **aucuns** fichier de migrations sinon il faut les supprimer. 
 Effectuer ensuite les commandes suivantes :
 
+- php bin/console doctrine:database:create (pour créer la base de données)
 - php bin/console make:migration (mettre yes à ce qui est demandé)
 - php bin/console doctrine:migrations:migrate (mettre yes aussi)
 
