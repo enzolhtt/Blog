@@ -112,8 +112,10 @@ Se placer dans le dossier du blog dans notre cas **/var/www/Blog/** et effectuer
 
 Pour **toutes** les commandes Symfony il faudra se placer dans le dossier du blog c'est-à-dire **/var/www/Blog**.
 Il faut vérifier que dans **/var/www/Blog/migrations** il ne reste **aucuns** fichier de migrations sinon il faut les supprimer.
+
 Avant d'effectuer les commandes pour créer la base de donnée il faut se rendre dans le fichier .env du projet symfony pour rentrer l'adresse ip de votre machine où vous compter créer la base de donnée:
 Changer la ligne suivante en modifiant l'adresse IP en gras : DATABASE_URL="mysql://admintest:admintest@**172.16.119.27**:3306/blog?serverVersion=10.11.2-MariaDB&charset=utf8mb4"
+
 Effectuer ensuite les commandes suivantes :
 
 - php bin/console doctrine:database:create (pour créer la base de données)
